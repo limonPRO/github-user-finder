@@ -1,10 +1,12 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { axiosPost } from '@/lib/axios';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { getFromLocalStorage } from '@/lib/utils';
 
 // Zod schema for form validation
 const schema = z.object({
@@ -21,7 +23,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const SignUpPage = () => {
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -40,7 +42,13 @@ const SignUpPage = () => {
       toast.error("something went wrong")
     }
   };
-  // console.log
+    // Check if user is already logged in (token exists in localStorage)
+    useEffect(() => {
+      const token = getFromLocalStorage('token');
+      if (token) {
+        router.push('/profile');
+      }
+    }, [router]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">

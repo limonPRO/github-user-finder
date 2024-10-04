@@ -13,7 +13,6 @@ const VerifyEmail = () => {
   // Get the token from the URL
   const token = searchParams?.get('token');
 
-  // Define the mutation for verifying email
 
   // Submit handler
   const onSubmit = async () => {
@@ -22,8 +21,9 @@ const VerifyEmail = () => {
       const result :any   = await axiosGet(`/users/verify-email?token=${token}`); 
       toast.success(result.message)
       router.push("/signin")
+      toast.success("verify successsfully")
     } catch (error) {
-      console.error('Error verifying email:', error);
+      toast.error("something went wrong")
     }
   };
 

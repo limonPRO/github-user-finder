@@ -50,7 +50,7 @@ const ProfilePage = () => {
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Profile Picture:</strong></p>
           {user.profilePicture && <img src={user.profilePicture} alt="Profile" className="w-32 h-32 rounded-full" />}
-          <p><strong>Email Verified:</strong> {user.emailVerified ? 'Yes' : 'No'}</p>
+          <p><strong>Email Verified:</strong> {user.email_verified ? 'Yes' : 'No'}</p>
           <p><strong>Language:</strong> {user.language}</p>
         </div>
       ) : (

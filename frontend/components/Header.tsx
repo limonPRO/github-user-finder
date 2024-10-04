@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { getFromLocalStorage, removeFromLocalStorage } from '@/lib/utils'; // Make sure removeFromLocalStorage is implemented
+import { getFromLocalStorage, removeFromLocalStorage } from '@/lib/utils'; 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const router = useRouter();
 
   const headers = [
@@ -15,12 +15,12 @@ const Header = () => {
       link: '/signin',
     },
     {
-      title: 'SignUp',
-      link: '/signup',
-    },
-    {
       title: 'users',
       link: '/github-users',
+    },
+    {
+      title: 'profile',
+      link: '/profile',
     },
   ];
 
@@ -42,15 +42,47 @@ const Header = () => {
   return (
     <div className="bg-gray-800 text-white p-4">
       <ul className="flex justify-end space-x-4">
-        {headers.map((item) => (
-          !isLoggedIn || item.link !== '/signin' ? (
+        {/* Render "SignIn" only if the user is not logged in */}
+        {!isLoggedIn ? (
+          <>
+            <li>
+              <Link className="hover:text-gray-400 transition duration-200" href="/signin">
+                SignIn
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-gray-400 transition duration-200" href="/signup">
+                SignUp
+              </Link>
+            </li>
+          </>
+        ):  (
+          <>
+            <li>
+              <Link className="hover:text-gray-400 transition duration-200" href="/github-users">
+              users
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-gray-400 transition duration-200" href="/profile">
+              profile
+              </Link>
+            </li>
+          </>
+        ) }
+
+        {/* Always render "Users" link */}
+        {/* {headers
+          .filter(item => item.link === '/github-users') // Only show specific links
+          .map(item => (
             <li key={item.link}>
               <Link className="hover:text-gray-400 transition duration-200" href={item.link}>
                 {item.title}
               </Link>
             </li>
-          ) : null // Do not show "SignIn" link if logged in
-        ))}
+          ))} */}
+
+        {/* Render "Logout" only if the user is logged in */}
         {isLoggedIn && (
           <li>
             <button

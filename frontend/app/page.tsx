@@ -1,9 +1,11 @@
+import React from 'react'
 
-import Image from "next/image";
-
-export default function Home() {
+const page = () => {
   return (
-    <p>limon</p>
-    
-  );
+    <div className='text-center flex justify-center items-center'>
+      welcome to github user finder
+    </div>
+  )
 }
+
+export default page

@@ -1,6 +1,8 @@
 "use client"
 import { axiosGet } from '@/lib/axios';
-import React, { useState } from 'react';
+import { getFromLocalStorage } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 interface User {
   _id: string;
@@ -29,6 +31,8 @@ const SearchPage = () => {
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  
+
 
   const handleSearch = async (pageNumber: number) => {
     try {
@@ -61,6 +65,7 @@ const SearchPage = () => {
     setPage(1); // Reset to the first page
     handleSearch(1); // Search with the first page
   };
+
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 p-4">

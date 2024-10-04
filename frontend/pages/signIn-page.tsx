@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -9,7 +9,8 @@ import { Mutation, useMutation } from '@tanstack/react-query';
 import axios, { axiosPost } from '@/lib/axios';
 import axiosInstance from '@/lib/axios';
 import { signIn } from 'next-auth/react';
-import { addToLocalStorage } from '@/lib/utils';
+import { addToLocalStorage, getFromLocalStorage } from '@/lib/utils';
+import toast from 'react-hot-toast';
 
 // Zod schema for form validation
 const schema = z.object({
@@ -33,21 +34,26 @@ const SignInPage = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const result :any   = await axiosPost('/users/login', data); 
-      
-      if(result.success){
-      addToLocalStorage('token', result?.token as string)
-       console.log(result)
-       addToLocalStorage('user', result.data)
-      }
+      const result: any = await axiosPost('/users/login', data);
 
+      if (result.success) {
+        addToLocalStorage('token', result?.token as string)
+        addToLocalStorage('user', result.data)
+      }
+      toast.success("sign in successsfully")
       router.push('/profile');
     } catch (error) {
-      
-      console.error('Error signing up:', error);
+      toast.error("something went wrong")
     }
   };
 
+  // Check if user is already logged in (token exists in localStorage)
+  useEffect(() => {
+    const token = getFromLocalStorage('token');
+    if (token) {
+      router.push('/profile');
+    }
+  }, [router]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
